@@ -7,6 +7,8 @@ use warnings;
 
 use parent qw(OpenTracing::Common);
 
+use Time::HiRes;
+
 sub process { shift->{process} //= OpenTracing::Process->new }
 
 sub spans {
@@ -26,7 +28,7 @@ sub add_span {
 sub new_span {
     my ($self, $name, %args) = @_;
     $args{operation_name} = $name;
-    $args{start_time} //= Time::HiRes::time * 1_000_000;
+    $args{start_time} //= Time::HiRes::time() * 1_000_000;
     $self->add_span(my $span = OpenTracing::Span->new(batch => $self, %args));
     OpenTracing::SpanProxy->new(span => $span)
 }

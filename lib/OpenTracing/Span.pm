@@ -3,17 +3,18 @@ package OpenTracing::Span;
 use strict;
 use warnings;
 
-use Time::HiRes ();
-
 # VERSION
 
 use parent qw(OpenTracing::Common);
+
+use Time::HiRes ();
+use Math::Random::Secure ();
 
 sub trace_id { shift->{trace_id} //= Math::Random::Secure::irand(2**62) }
 sub id { shift->{id} //= Math::Random::Secure::irand(2**62) }
 sub parent_id { shift->{parent_id} // 0 }
 sub flags { shift->{flags} // 0 }
-sub start_time { shift->{start_time} //= (Time::HiRes::time * 1_000_000) }
+sub start_time { shift->{start_time} //= (Time::HiRes::time() * 1_000_000) }
 sub duration { shift->{duration} }
 sub operation_name { shift->{operation_name} }
 sub tags { shift->{tags} }
@@ -32,7 +33,7 @@ sub log_list {
 sub log : method {
     my ($self, $message, %args) = @_;
     $args{message} = $message;
-    my $timestamp = delete($args{timestamp}) // Time::HiRes::time * 1_000_000;
+    my $timestamp = delete($args{timestamp}) // Time::HiRes::time() * 1_000_000;
     push +($self->{logs} //= [])->@*, my $log = OpenTracing::Log->new(
         tags => {
             message => $message,
