@@ -18,6 +18,7 @@ my %WriteMakefileArgs = (
   "NAME" => "OpenTracing",
   "PREREQ_PM" => {
     "Math::Random::Secure" => 0,
+    "Scalar::Util" => 0,
     "Time::HiRes" => 0,
     "parent" => 0,
     "strict" => 0,
@@ -31,7 +32,7 @@ my %WriteMakefileArgs = (
     "Test::CheckDeps" => "0.010",
     "Test::More" => "0.94"
   },
-  "VERSION" => "0.001",
+  "VERSION" => "0.002",
   "test" => {
     "TESTS" => "t/*.t"
   }
@@ -44,6 +45,7 @@ my %FallbackPrereqs = (
   "IO::Handle" => 0,
   "IPC::Open3" => 0,
   "Math::Random::Secure" => 0,
+  "Scalar::Util" => 0,
   "Test::CheckDeps" => "0.010",
   "Test::More" => "0.94",
   "Time::HiRes" => 0,
