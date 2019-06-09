@@ -35,13 +35,10 @@ sub new_span {
 
 sub DESTROY {
     my ($self) = @_;
-    warn "prepare for destroy callback";
     return if ${^GLOBAL_PHASE} eq 'DESTRUCT';
-    warn "okay destroy callback";
     my $on_destroy = delete $self->{on_destroy}
         or return;
     $self->$on_destroy;
-    warn "called";
     return;
 }
 
