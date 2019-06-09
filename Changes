@@ -1,5 +1,7 @@
 Revision history for {{$dist->name}}
 
 {{$NEXT}}
+
+0.001     2019-06-10 05:41:04+08:00 Asia/Kuala_Lumpur
     Initial release.
 
