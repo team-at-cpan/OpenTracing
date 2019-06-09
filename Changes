@@ -1,6 +1,11 @@
 Revision history for {{$dist->name}}
 
 {{$NEXT}}
+    No new features.
+
+    Bugs fixed:
+
+    - removed some unnecessary debug lines
 
 0.001     2019-06-10 05:41:04+08:00 Asia/Kuala_Lumpur
     Initial release.
