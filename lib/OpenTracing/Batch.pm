@@ -8,6 +8,7 @@ use warnings;
 use parent qw(OpenTracing::Common);
 
 use Time::HiRes;
+use Scalar::Util ();
 
 sub process { shift->{process} //= OpenTracing::Process->new }
 
