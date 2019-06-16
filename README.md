@@ -10,6 +10,15 @@ In general, you'll want to create an [OpenTracing::Batch](https://metacpan.org/p
 or more [OpenTracing::Span](https://metacpan.org/pod/OpenTracing::Span) instances to it. Those instances can have zero
 or more [OpenTracing::Log](https://metacpan.org/pod/OpenTracing::Log) entries.
 
+See the following classes for more information:
+
+- [OpenTracing::Tag](https://metacpan.org/pod/OpenTracing::Tag)
+- [OpenTracing::Log](https://metacpan.org/pod/OpenTracing::Log)
+- [OpenTracing::Span](https://metacpan.org/pod/OpenTracing::Span)
+- [OpenTracing::SpanProxy](https://metacpan.org/pod/OpenTracing::SpanProxy)
+- [OpenTracing::Process](https://metacpan.org/pod/OpenTracing::Process)
+- [OpenTracing::Batch](https://metacpan.org/pod/OpenTracing::Batch)
+
 # SEE ALSO
 
 ## Tools and specifications

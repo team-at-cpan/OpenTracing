@@ -1,6 +1,8 @@
 Revision history for {{$dist->name}}
 
 {{$NEXT}}
+
+0.003     2019-06-16 21:56:03+08:00 Asia/Kuala_Lumpur
     No new features.
 
     Bugs fixed:
