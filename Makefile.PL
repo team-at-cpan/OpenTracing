@@ -2,7 +2,7 @@
 use strict;
 use warnings;
 
-use 5.006;
+use 5.020;
 
 use ExtUtils::MakeMaker;
 
@@ -14,9 +14,10 @@ my %WriteMakefileArgs = (
   },
   "DISTNAME" => "OpenTracing",
   "LICENSE" => "perl",
-  "MIN_PERL_VERSION" => "5.006",
+  "MIN_PERL_VERSION" => "5.020",
   "NAME" => "OpenTracing",
   "PREREQ_PM" => {
+    "Exporter" => 0,
     "Math::Random::Secure" => 0,
     "Scalar::Util" => 0,
     "Time::HiRes" => 0,
@@ -30,9 +31,10 @@ my %WriteMakefileArgs = (
     "IO::Handle" => 0,
     "IPC::Open3" => 0,
     "Test::CheckDeps" => "0.010",
+    "Test::Fatal" => 0,
     "Test::More" => "0.94"
   },
-  "VERSION" => "0.003",
+  "VERSION" => "0.004",
   "test" => {
     "TESTS" => "t/*.t"
   }
@@ -40,6 +42,7 @@ my %WriteMakefileArgs = (
 
 
 my %FallbackPrereqs = (
+  "Exporter" => 0,
   "ExtUtils::MakeMaker" => 0,
   "File::Spec" => 0,
   "IO::Handle" => 0,
@@ -47,6 +50,7 @@ my %FallbackPrereqs = (
   "Math::Random::Secure" => 0,
   "Scalar::Util" => 0,
   "Test::CheckDeps" => "0.010",
+  "Test::Fatal" => 0,
   "Test::More" => "0.94",
   "Time::HiRes" => 0,
   "parent" => 0,

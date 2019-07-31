@@ -4,7 +4,7 @@ package OpenTracing;
 use strict;
 use warnings;
 
-our $VERSION = '0.003';
+our $VERSION = '0.004';
 
 =encoding utf8
 
@@ -31,28 +31,29 @@ There are 3 parts to this:
 
 =over 4
 
-=item * add tracing to your code
+=item * L<add tracing to your code|/Tracing>
 
-=item * set up an opentracing service
+=item * L<set up an opentracing service|/Tracers>
 
-=item * have the top-level application(s) send traces to that service
+=item * L<have the top-level application(s) send traces to that service|/Application>
 
 =back
 
 =head2 Tracing
 
 Collecting trace data is similar to a logging module such as L<Log::Any>.
+Add this line to any module where you want to include tracing information:
 
  use OpenTracing::Any qw($tracer);
 
-This will give you an L<OpenTracing::Tracer> instance. You can then use this
-to create L<spans|OpenTracing::Span>:
+This will give you an L<OpenTracing::Tracer> instance in the C<< $tracer >>
+package variable. You can then use this to create L<spans|OpenTracing::Span>:
 
  my $span = $tracer->span(
   name => 'example'
  );
 
-You can also use L<OpenTracing::DSL> for an alternative way to trace blocks of code:
+You could also use L<OpenTracing::DSL> for an alternative way to trace blocks of code:
 
  use OpenTracing::DSL qw(:v1);
 
@@ -60,7 +61,7 @@ You can also use L<OpenTracing::DSL> for an alternative way to trace blocks of c
   print 'operation starts here';
   sleep 2;
   print 'end of operation';
- };
+ } name => 'example';
 
 =head2 Integration
 
@@ -84,25 +85,25 @@ L<https://opentracing.io/docs/supported-tracers/>
 =head2 Application
 
 The top-level code (applications, dæmons, cron jobs, microservices, etc.) will need
-to enable a tracer and configure it with the service details so that the collected
-data has somewhere to go.
+to register a tracer implementation and configure it with the service details, so
+that the collected data has somewhere to go.
 
-One such tracer is L<Net::Async::OpenTracing>, designed to work with code that uses
-the L<IO::Async> event loop.
+One such tracer implementation is L<Net::Async::OpenTracing>, designed to work with
+code that uses the L<IO::Async> event loop.
 
  use IO::Async::Loop;
  use Net::Async::OpenTracing;
  my $loop = IO::Async::Loop->new;
  $loop->add(
-  my $tracer = Net::Async::OpenTracing->new(
-   host => 'localhost',
-   port => 6828,
+  my $target = Net::Async::OpenTracing->new(
+   host     => 'localhost',
+   port     => 6828,
    protocol => 'zipkin',
   )
  );
- OpenTracing->register_tracer($tracer);
+ OpenTracing->global_tracer->register($target);
 
-See the module documentation for more details on the options.
+See the L<module documentation|Net::Async::OpenTracing> for more details on the options.
 
 If you're feeling lucky, you might also want to add this to your top-level application code:
 
@@ -112,25 +113,19 @@ This will go through the list of all modules currently loaded and attempt to
 enable any matching integrations - see L</Integration> and L<OpenTracing::Integration>
 for more details.
 
-In general, you'll want to create an L<OpenTracing::Batch>, then add one
-or more L<OpenTracing::Span> instances to it. Those instances can have zero
-or more L<OpenTracing::Log> entries.
+=head2 More information
 
 See the following classes for more information:
 
 =over 4
 
-=item * L<OpenTracing::Tag>
-
-=item * L<OpenTracing::Log>
-
 =item * L<OpenTracing::Span>
 
 =item * L<OpenTracing::SpanProxy>
 
-=item * L<OpenTracing::Process>
+=item * L<OpenTracing::Log>
 
-=item * L<OpenTracing::Batch>
+=item * L<OpenTracing::Process>
 
 =back
 
@@ -142,6 +137,38 @@ use OpenTracing::Span;
 use OpenTracing::SpanProxy;
 use OpenTracing::Process;
 use OpenTracing::Batch;
+
+our $TRACER;
+
+=head1 METHODS
+
+=head2 global_tracer
+
+Returns the default tracer instance.
+
+ my $span = OpenTracing->global_tracer->span(name => 'test');
+
+This is the same instance used by L<OpenTracing::Any> and L<OpenTracing::DSL>.
+
+=cut
+
+sub global_tracer { $TRACER }
+
+=head2 set_global_tracer
+
+Replaces the current global tracer with the given one.
+
+ OpenTracing->set_global_tracer($tracer);
+
+Note that a typical application would only need a single instance, and the
+default should normally be good enough.
+
+B<If you want to set up where the traces should go>, see
+L<OpenTracing::Tracer/register> instead.
+
+=cut
+
+sub set_global_tracer { $TRACER = $_[1] }
 
 1;
 
