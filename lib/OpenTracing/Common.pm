@@ -13,7 +13,7 @@ OpenTracing::Common - provides common logic between OpenTracing classes
 
 =head1 DESCRIPTION
 
-No user-serviceable parts inside.
+No user-serviceable parts inside. Currently just provides a standard constructor.
 
 =cut
 
