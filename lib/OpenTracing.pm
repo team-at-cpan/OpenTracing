@@ -25,6 +25,8 @@ and has several "semantic conventions" which provide a common way to
 include details for common components such as databases, caches and web
 applications.
 
+This module currently implements B<version 1.1> of the official specification.
+
 =head2 How to use this
 
 There are 3 parts to this:
