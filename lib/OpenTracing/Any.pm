@@ -36,6 +36,8 @@ See also: L<Log::Any>.
 
 =cut
 
+use OpenTracing;
+
 sub import {
     my ($class, @args) = @_;
     die 'too many parameters when loading OpenTracing::Any - expects a single variable name'
@@ -57,7 +59,7 @@ sub import {
         # since Log::Any also skips the check it seems we're in good company.
         # require B;
         # die $pkg . ' already has a variable called ' . $injected_variable if B::svref_2object(\*$fully_qualified)->SV->$*;
-        *{$fully_qualified} = \$OpenTracing::TRACER;
+        *{$fully_qualified} = \(OpenTracing->global_tracer());
     }
 }
 

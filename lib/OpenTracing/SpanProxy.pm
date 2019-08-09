@@ -39,6 +39,8 @@ Writes a log entry to the L<OpenTracing::Span>.
 =cut
 
 sub log { shift->span->log(@_) }
+sub duration { shift->span->duration(@_) }
+sub finish { shift->span->finish(@_) }
 
 =head2 new_span
 

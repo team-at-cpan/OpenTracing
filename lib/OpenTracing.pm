@@ -138,9 +138,9 @@ use OpenTracing::Log;
 use OpenTracing::Span;
 use OpenTracing::SpanProxy;
 use OpenTracing::Process;
-use OpenTracing::Batch;
+use OpenTracing::Tracer;
 
-our $TRACER;
+our $TRACER = OpenTracing::Tracer->new;
 
 =head1 METHODS
 
