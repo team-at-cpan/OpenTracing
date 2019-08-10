@@ -84,11 +84,11 @@ sub span {
     $args{start_time} //= Time::HiRes::time() * 1_000_000;
     $self->add_span(
         my $span = OpenTracing::Span->new(
-            batch => $self,
+            tracer => $self,
             %args
         )
     );
-    return OpenTracing::SpanProxy->new(span => $span)
+    return OpenTracing::SpanProxy->new(span => $span);
 }
 
 =head2 DESTROY

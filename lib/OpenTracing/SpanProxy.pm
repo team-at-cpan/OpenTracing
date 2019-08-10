@@ -55,7 +55,7 @@ sub new_span {
         $parent->trace_id,
         $parent->id,
     );
-    $parent->tracer->new_span($name => %args);
+    $parent->tracer->span($name => %args);
 }
 
 =head2 DESTROY

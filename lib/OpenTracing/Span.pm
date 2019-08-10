@@ -136,6 +136,8 @@ sub log : method {
     $log;
 }
 
+sub tracer { shift->{tracer} }
+
 =head2 finish
 
 Mark this span as finished (populating the L</duration> field).
