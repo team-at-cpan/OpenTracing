@@ -196,6 +196,9 @@ Some perl modules of relevance:
 
 =over 4
 
+=item * L<OpenTracing::Manual> - this is an independent Moo-based implementation, probably worth a look
+if you're working mostly with synchronous code.
+
 =item * L<Net::Async::OpenTracing> - an async implementation for sending OpenTracing data
 to servers via the binary Thrift protocol
 
@@ -209,5 +212,5 @@ Tom Molesworth <TEAM@cpan.org>
 
 =head1 LICENSE
 
-Copyright Tom Molesworth 2018-2019. Licensed under the same terms as Perl itself.
+Copyright Tom Molesworth 2018-2020. Licensed under the same terms as Perl itself.
 
