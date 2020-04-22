@@ -1,6 +1,8 @@
 Revision history for {{$dist->name}}
 
 {{$NEXT}}
+
+0.004     2020-04-23 02:35:27+08:00 Asia/Kuala_Lumpur
     New features:
 
     - includes OpenTracing::Any base implementation, inspired by Log::Any
