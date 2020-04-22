@@ -36,7 +36,8 @@ my %WriteMakefileArgs = (
     "Test::Files" => "0.14",
     "Test::More" => "0.98",
     "Test::Refcount" => "0.07",
-    "Test::Warnings" => "0.024"
+    "Test::Warnings" => "0.024",
+    "indirect" => 0
   },
   "VERSION" => "0.004",
   "test" => {
@@ -61,6 +62,7 @@ my %FallbackPrereqs = (
   "Test::Refcount" => "0.07",
   "Test::Warnings" => "0.024",
   "Time::HiRes" => 0,
+  "indirect" => 0,
   "parent" => 0,
   "strict" => 0,
   "warnings" => 0

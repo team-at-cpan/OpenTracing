@@ -5,6 +5,7 @@ use Test::More;
 
 {
     package Example;
+    no indirect;
     use Test::More;
     use OpenTracing::DSL qw(:v1);
 

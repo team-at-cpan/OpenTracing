@@ -36,8 +36,8 @@ our @EXPORT_OK = $EXPORT_TAGS{v1}->@*;
 
 sub trace(&;@) {
     my ($code, %args) = @_;
-    $args{operation_name} //= 'test';
-    my $span = $tracer->span(%args);
+    my $name = delete($args{operation_name}) // 'unknown';
+    my $span = $tracer->span($name, %args);
     return $code->($span);
 }
 
