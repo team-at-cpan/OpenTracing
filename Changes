@@ -1,6 +1,10 @@
 Revision history for {{$dist->name}}
 
 {{$NEXT}}
+    New features:
+
+    - ID generation is now full 128-bit, using Bytes::Random::Secure
+    - async support is now possible (using Syntax::Keyword::Dynamically)
 
 0.004     2020-04-23 02:35:27+08:00 Asia/Kuala_Lumpur
     New features:

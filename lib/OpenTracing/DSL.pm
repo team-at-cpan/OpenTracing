@@ -4,6 +4,10 @@ use strict;
 use warnings;
 
 # VERSION
+# AUTHORITY
+
+no indirect;
+use utf8;
 
 =encoding utf8
 
@@ -25,8 +29,11 @@ OpenTracing::DSL - application tracing
 
 =cut
 
+use Syntax::Keyword::Try;
+
 use Exporter qw(import export_to_level);
 
+use Log::Any qw($log);
 use OpenTracing::Any qw($tracer);
 
 our %EXPORT_TAGS = (
@@ -36,9 +43,27 @@ our @EXPORT_OK = $EXPORT_TAGS{v1}->@*;
 
 sub trace(&;@) {
     my ($code, %args) = @_;
-    my $name = delete($args{operation_name}) // 'unknown';
-    my $span = $tracer->span($name, %args);
-    return $code->($span);
+    $args{operation_name} //= 'unknown';
+    my $span = $tracer->span(%args);
+    try {
+        return $code->($span);
+    } catch {
+        my $err = $@;
+        eval {
+            $span->tag(
+                error => 1,
+                'operation.status' => 'failed'
+            );
+            $span->log(
+                event   => 'general exception',
+                payload => "$err"
+            );
+            1
+        } or $log->warnf('Exception during span exception handler - %s', $@);
+        die $err;
+    } finally {
+        undef $span
+    }
 }
 
 1;
@@ -51,5 +76,5 @@ Tom Molesworth <TEAM@cpan.org>
 
 =head1 LICENSE
 
-Copyright Tom Molesworth 2018-2019. Licensed under the same terms as Perl itself.
+Copyright Tom Molesworth 2018-2020. Licensed under the same terms as Perl itself.
 

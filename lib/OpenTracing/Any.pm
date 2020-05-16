@@ -4,6 +4,10 @@ use strict;
 use warnings;
 
 # VERSION
+# AUTHORITY
+
+no indirect;
+use utf8;
 
 =encoding utf8
 
@@ -73,5 +77,5 @@ Tom Molesworth <TEAM@cpan.org>
 
 =head1 LICENSE
 
-Copyright Tom Molesworth 2018-2019. Licensed under the same terms as Perl itself.
+Copyright Tom Molesworth 2018-2020. Licensed under the same terms as Perl itself.
 
