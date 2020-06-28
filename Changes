@@ -1,6 +1,8 @@
 Revision history for {{$dist->name}}
 
 {{$NEXT}}
+
+1.000     2020-06-29 00:07:54+08:00 Asia/Kuala_Lumpur
     New features:
 
     - ID generation is now full 128-bit, using Bytes::Random::Secure
