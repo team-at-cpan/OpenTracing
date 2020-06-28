@@ -29,6 +29,7 @@ use OpenTracing::Span;
 use OpenTracing::SpanProxy;
 
 use List::Util qw(min);
+use Scalar::Util qw(refaddr);
 use Time::HiRes ();
 
 use Log::Any qw($log);
@@ -115,9 +116,12 @@ sub span {
     return OpenTracing::SpanProxy->new(span => $span);
 }
 
+sub current_span { shift->{current_span} }
+
 sub finish_span {
     my ($self, $span) = @_;
     $log->tracef('Finishing span %s', $span);
+    undef $self->{current_span} if refaddr($self->{current_span}) == refaddr($span);
     push @{$self->{finished_spans} //= []}, $span;
 }
 
