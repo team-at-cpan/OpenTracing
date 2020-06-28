@@ -4,7 +4,7 @@ package OpenTracing;
 use strict;
 use warnings;
 
-our $VERSION = '1.000';
+our $VERSION = '1.001';
 our $AUTHORITY = 'cpan:TEAM'; # AUTHORITY
 
 no indirect;
@@ -165,6 +165,12 @@ code that uses the L<IO::Async> event loop.
  OpenTracing->global_tracer->register($target);
 
 See the L<module documentation|Net::Async::OpenTracing> for more details on the options.
+
+=head2 Logging
+
+Log messages can be attached to spans.
+
+Currently, the recommended way to do this is via L<Log::Any::Adapter::OpenTracing>.
 
 =head2 More information
 

@@ -157,6 +157,13 @@ OpenTelemetry or OpenTracing?
 
     See the module documentation for more details on the options.
 
+ Logging
+
+    Log messages can be attached to spans.
+
+    Currently, the recommended way to do this is via
+    Log::Any::Adapter::OpenTracing.
+
  More information
 
     See the following classes for more information:

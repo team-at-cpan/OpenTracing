@@ -3,7 +3,7 @@ package OpenTracing::Protocol::Jaeger;
 use strict;
 use warnings;
 
-our $VERSION = '1.000'; # VERSION
+our $VERSION = '1.001'; # VERSION
 our $AUTHORITY = 'cpan:TEAM'; # AUTHORITY
 
 no indirect;
