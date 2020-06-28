@@ -254,6 +254,9 @@ if you're working mostly with synchronous code.
 
 =item * L<Net::Async::OpenTracing> - L<IO::Async> support for sending OpenTracing data to a collector
 
+=item * L<OpenTelemetry::Any> - should eventually become the new standard, although the specification is
+still in flux
+
 =item * L<NewRelic::Agent> - support for NewRelic's APM system
 
 =back
