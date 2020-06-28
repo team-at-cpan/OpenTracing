@@ -5,6 +5,9 @@ Revision history for {{$dist->name}}
 
     - ID generation is now full 128-bit, using Bytes::Random::Secure
     - async support is now possible (using Syntax::Keyword::Dynamically)
+    - OpenTracing::Integration support (most of these involve external
+    deps, so will end up as separate distributions)
+    - mention OpenTracing::Role in an attempt to reduce confusion
 
 0.004     2020-04-23 02:35:27+08:00 Asia/Kuala_Lumpur
     New features:
