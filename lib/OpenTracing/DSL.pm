@@ -41,6 +41,24 @@ our %EXPORT_TAGS = (
 );
 our @EXPORT_OK = $EXPORT_TAGS{v1}->@*;
 
+=head2 trace
+
+Takes a block of code and provides it with an L<OpenTracing::SpanProxy>.
+
+ trace {
+  my ($span) = @_;
+  $span->tag(
+   'extra.details' => '...'
+  );
+ } operation_name => 'your_code';
+
+Returns whatever your code did.
+
+If the block of code throws an exception, that'll cause the span to be
+marked as an error.
+
+=cut
+
 sub trace(&;@) {
     my ($code, %args) = @_;
     $args{operation_name} //= 'unknown';
