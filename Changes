@@ -1,6 +1,8 @@
 Revision history for {{$dist->name}}
 
 {{$NEXT}}
+
+1.001     2020-06-29 00:54:31+08:00 Asia/Kuala_Lumpur
     New features:
 
     - expose ->current_span, to support Log::Any::Adapter::OpenTracing

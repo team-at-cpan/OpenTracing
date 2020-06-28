@@ -146,6 +146,12 @@ code that uses the [IO::Async](https://metacpan.org/pod/IO%3A%3AAsync) event loo
 
 See the [module documentation](https://metacpan.org/pod/Net%3A%3AAsync%3A%3AOpenTracing) for more details on the options.
 
+## Logging
+
+Log messages can be attached to spans.
+
+Currently, the recommended way to do this is via [Log::Any::Adapter::OpenTracing](https://metacpan.org/pod/Log%3A%3AAny%3A%3AAdapter%3A%3AOpenTracing).
+
 ## More information
 
 See the following classes for more information:
