@@ -3,8 +3,8 @@
 =for comment POD_DERIVED_INDEX_GENERATED
 
 The following documentation is automatically generated.  Please do not edit
-this file, but rather the original, inline with OpenTracing::Log
-at lib/OpenTracing/Log.pm
+this file, but rather the original, inline with OpenTracing::SpanContext
+at lib/OpenTracing/SpanContext.pm
 (on the system that originally ran this).
 If you do edit this file, and don't want your changes to be removed, make
 sure you change the first line.
@@ -13,25 +13,26 @@ sure you change the first line.
 
 =head1 NAME
 
-OpenTracing::Log - represents a single log message
+OpenTracing::SpanContext - tracks IDs and baggage for spans
 
 =head1 DESCRIPTION
 
-Each instance represents one log message.
+=head2 span
 
-=head1 METHODS
+Returns the L<OpenTracing::Span> instance that this wraps.
 
-=head2 timestamp
+=head2 log
 
-When this message was logged.
+Writes a log entry to the L<OpenTracing::Span>.
 
-=head2 tags
+=head2 new_span
 
-Arrayref of tags relating to the log entry.
+Creates a new sub-span under this L<OpenTracing::Span> instance.
 
-=head2 tag_list
+=head2 DESTROY
 
-List of tags relating to the log entry.
+Called on destruction, will mark completion on the span by calling
+L<OpenTracing::Span/finish>.
 
 =head1 INHERITED METHODS
 
