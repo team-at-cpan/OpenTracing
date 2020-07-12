@@ -24,6 +24,8 @@ OpenTracing::Integration::HTTP::Tiny - support L<HTTP::Tiny> tracing
 
 See L<OpenTracing::Integration> for more details.
 
+Since this is a core module, it's included in the L<OpenTracing> core distribution as well.
+
 =cut
 
 use Syntax::Keyword::Try;
