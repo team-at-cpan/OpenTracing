@@ -144,7 +144,7 @@ sub current_span { shift->{current_span} }
 sub finish_span {
     my ($self, $span) = @_;
     $log->tracef('Finishing span %s', $span);
-    undef $self->{current_span} if refaddr($self->{current_span}) == refaddr($span);
+    undef $self->{current_span} if $self->{current_span} and refaddr($self->{current_span}) == refaddr($span);
     push @{$self->{finished_spans} //= []}, $span;
 }
 
