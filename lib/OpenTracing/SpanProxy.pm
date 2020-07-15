@@ -23,6 +23,8 @@ This is the wrapper class that user code would normally receive when working
 with spans. It allows the creation of nested subspans, and will automatically
 mark the span as complete when the proxy object is discarded.
 
+For methods available here, see L<OpenTracing::Span>.
+
 =cut
 
 =head2 span

@@ -49,6 +49,22 @@ List of tags relating to the log entry.
 
 sub tag_list { (shift->{tags} //= [])->@* }
 
+=head2 tag
+
+Applies key/value tags to this log message.
+
+The L<semantic conventions|https://github.com/opentracing/specification/blob/master/semantic_conventions.md>
+may be of interest here.
+
+Example usage:
+
+ $log->tag(
+  'error.kind' => 'Exception',
+  'error.object' => $exception,
+ );
+
+=cut
+
 sub tag : method {
     my ($self, %args) = @_;
     @{$self->{tags}}{keys %args} = values %args;
