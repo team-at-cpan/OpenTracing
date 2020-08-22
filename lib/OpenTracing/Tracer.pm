@@ -40,7 +40,6 @@ use Log::Any qw($log);
 
 sub new {
     my ($class, %args) = @_;
-    $args{is_enabled} //= 1;
     bless \%args, $class
 }
 
@@ -74,7 +73,7 @@ Returns true if this tracer is currently enabled.
 
 =cut
 
-sub is_enabled { shift->{is_enabled} }
+sub is_enabled { shift->{is_enabled} //= 0 }
 
 =head2 enable
 
@@ -114,12 +113,14 @@ sub span_list {
 
 =head2 add_span
 
-Adds a new L<OpenTracing::Span> instance to this batch.
+Adds a new L<OpenTracing::Span> instance to the pending list, if
+we're currently enabled.
 
 =cut
 
 sub add_span {
     my ($self, $span) = @_;
+    return $span unless $self->is_enabled;
     push $self->{spans}->@*, $span;
     Scalar::Util::weaken($span->{batch});
     $span
@@ -145,7 +146,10 @@ sub finish_span {
     my ($self, $span) = @_;
     $log->tracef('Finishing span %s', $span);
     undef $self->{current_span} if $self->{current_span} and refaddr($self->{current_span}) == refaddr($span);
+
+    return $span unless $self->is_enabled;
     push @{$self->{finished_spans} //= []}, $span;
+    return $span;
 }
 
 sub inject {
