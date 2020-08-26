@@ -1,6 +1,8 @@
 Revision history for {{$dist->name}}
 
 {{$NEXT}}
+
+1.003     2020-08-26 09:04:56+08:00 Asia/Kuala_Lumpur
     New features:
 
     - provides a hook for notifying implementations when there are new spans,
