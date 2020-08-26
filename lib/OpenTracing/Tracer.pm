@@ -40,6 +40,7 @@ use Log::Any qw($log);
 
 sub new {
     my ($class, %args) = @_;
+    $args{span_completion_callbacks} ||= [];
     bless \%args, $class
 }
 
@@ -149,7 +150,33 @@ sub finish_span {
 
     return $span unless $self->is_enabled;
     push @{$self->{finished_spans} //= []}, $span;
+    $_->($span) for $self->span_completion_callbacks;
     return $span;
+}
+
+sub add_span_completion_callback {
+    my ($self, $code) = @_;
+    push $self->{span_completion_callbacks}->@*, $code;
+    return $self;
+}
+
+sub remove_span_completion_callback {
+    my ($self, $code) = @_;
+    my $addr = Scalar::Util::refaddr($code);
+    my $data = $self->{span_completion_callbacks};
+    # Essentially extract_by from List::UtilsBy
+    for(my $idx = 0; ; ++$idx) {
+        last if $idx > $#$data;
+        next unless Scalar::Util::refaddr($data->[$idx]) == $addr;
+        splice @$data, $idx, 1, ();
+        # Skip the $idx change
+        redo;
+    }
+    return $self;
+}
+
+sub span_completion_callbacks {
+    shift->{span_completion_callbacks}->@*
 }
 
 sub inject {

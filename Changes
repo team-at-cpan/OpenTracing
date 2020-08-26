@@ -1,7 +1,10 @@
 Revision history for {{$dist->name}}
 
 {{$NEXT}}
-    No new features.
+    New features:
+
+    - provides a hook for notifying implementations when there are new spans,
+    rather than having to poll
 
     Bugs fixed:
 
