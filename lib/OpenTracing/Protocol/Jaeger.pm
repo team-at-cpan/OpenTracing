@@ -76,13 +76,13 @@ byte string representing that data.
 sub encode_tags {
     my ($self, $field_id, $tags) = @_;
     my $data = '';
-      # list Tag
+    # list Tag
     $data .= pack 'C1n1 C1N1',
         15, # list
         $field_id, # field ID is usually 2, or 10 for spans
         12, # struct
-        0 + keys %$tags if %$tags;  
-   for my $k (sort keys %$tags) {
+        0 + keys %$tags if %$tags;
+    for my $k (sort keys %$tags) {
         $data .= pack 'C1n1N/a* C1n1N1 C1n1N/a* C1',
             11, # type = string
             1, # field ID = 1
@@ -94,8 +94,8 @@ sub encode_tags {
             3, # field ID = 3
             encode_utf8($tags->{$k} // ''),
             0; # EOF marker
-   }
-return $data;
+    }
+    return $data;
 }
 
 =head2 encode_process
@@ -155,7 +155,7 @@ sub encode_span {
     $data .= pack 'CnH16 CnH16 CnH16 CnH16 CnN/a*',
         # trace_id_low
         10,
-        1,  
+        1,
         substr($span->trace_id, 16, 16),
         # trace_id_high
         10,
