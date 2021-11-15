@@ -183,7 +183,7 @@ sub encode_span {
             12, # struct
             0 + @$references;
         for my $reference (@$references) {
-            data .= pack 'C1n1N1 CnH16 CnH16 CnH16 C1',
+            $data .= pack 'C1n1N1 CnH16 CnH16 CnH16 C1',
                     8, # type = int32 (enum)
                     1,
                     $references->ref_type,
