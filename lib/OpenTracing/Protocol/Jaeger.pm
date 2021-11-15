@@ -186,19 +186,19 @@ sub encode_span {
             data .= pack 'C1n1N1 CnH16 CnH16 CnH16 C1',
                     8, # type = int32 (enum)
                     1,
-                    $span_ref->ref_type,
+                    $references->ref_type,
                     # trace_id_low
                     10,
                     2,
-                    substr($span_ref->span->trace_id, 16, 16),
+                    substr($references->span->trace_id, 16, 16),
                     # trace_id_high
                     10,
                     3,
-                    substr($span_ref->span->trace_id, 0, 16),
+                    substr($references->span->trace_id, 0, 16),
                     # span_id
                     10,
                     4,
-                    substr($span_ref->span->id, 0, 16),
+                    substr($references->span->id, 0, 16),
                     0;
         }
     }
