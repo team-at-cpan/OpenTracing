@@ -11,6 +11,11 @@ use parent qw(OpenTracing::Common);
 no indirect;
 use utf8;
 
+use constant {
+    CHILD_OF => 0,
+    FOLLOWS_FROM => 1,
+};
+
 =encoding utf8
 
 =head1 NAME
