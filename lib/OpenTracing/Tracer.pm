@@ -41,6 +41,7 @@ use Log::Any qw($log);
 sub new {
     my ($class, %args) = @_;
     $args{span_completion_callbacks} ||= [];
+    $args{current_span} ||= [];
     bless \%args, $class
 }
 
@@ -133,20 +134,21 @@ sub span {
     $self->add_span(
         my $span = OpenTracing::Span->new(
             tracer => $self,
-            parent => $self->{current_span},
+            parent => $self->{current_span}->[-1],
             %args
         )
     );
-    $self->{current_span} = $span;
+    push @{ $self->{current_span} }, $span;
     return OpenTracing::SpanProxy->new(span => $span);
 }
 
-sub current_span { shift->{current_span} }
+sub current_span { shift->{current_span}->[-1] }
 
 sub finish_span {
     my ($self, $span) = @_;
     $log->tracef('Finishing span %s', $span);
-    undef $self->{current_span} if $self->{current_span} and refaddr($self->{current_span}) == refaddr($span);
+
+    @{ $self->{current_span} }  = grep { refaddr($_) != refaddr($span)} @{ $self->{current_span} };
 
     return $span unless $self->is_enabled;
     push @{$self->{finished_spans} //= []}, $span;
