@@ -64,7 +64,7 @@ sub process {
         OpenTracing::Process->new(
             pid              => $$,
             ip               => Net::Address::IP::Local->public_ipv4,
-            'tracer.version' => 'perl-OpenTracing-' . __PACKAGE__->VERSION,
+            'tracer.version' => 'perl-OpenTracing-' . (__PACKAGE__->VERSION // "0.0.0"),
         );
     }
 }
