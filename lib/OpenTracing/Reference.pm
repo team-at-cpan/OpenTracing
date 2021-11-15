@@ -1,0 +1,50 @@
+package OpenTracing::Reference;
+
+use strict;
+use warnings;
+
+# VERSION
+# AUTHORITY
+
+use parent qw(OpenTracing::Common);
+
+no indirect;
+use utf8;
+
+=encoding utf8
+
+=head1 NAME
+
+OpenTracing::Reference - represents a span Reference
+
+=head1 DESCRIPTION
+
+=cut
+
+=head2 ref_type
+
+The type of reference
+
+=cut
+
+sub ref_type { shift->{ref_type} }
+
+=head2 span
+
+The span for this reference.
+
+=cut
+
+sub span { shift->{span} }
+
+1;
+
+__END__
+
+=head1 AUTHOR
+
+Tom Molesworth <TEAM@cpan.org>
+
+=head1 LICENSE
+
+Copyright Tom Molesworth 2018-2020. Licensed under the same terms as Perl itself.

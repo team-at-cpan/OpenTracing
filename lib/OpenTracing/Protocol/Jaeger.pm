@@ -76,13 +76,13 @@ byte string representing that data.
 sub encode_tags {
     my ($self, $field_id, $tags) = @_;
     my $data = '';
-    # list Tag
+      # list Tag
     $data .= pack 'C1n1 C1N1',
         15, # list
         $field_id, # field ID is usually 2, or 10 for spans
         12, # struct
-        0 + keys %$tags if %$tags;
-    for my $k (sort keys %$tags) {
+        0 + keys %$tags if %$tags;  
+   for my $k (sort keys %$tags) {
         $data .= pack 'C1n1N/a* C1n1N1 C1n1N/a* C1',
             11, # type = string
             1, # field ID = 1
@@ -94,8 +94,8 @@ sub encode_tags {
             3, # field ID = 3
             encode_utf8($tags->{$k} // ''),
             0; # EOF marker
-    }
-    return $data;
+   }
+return $data;
 }
 
 =head2 encode_process
@@ -152,10 +152,10 @@ Encodes the given L<OpenTracing::Span> instance, returning byte string data.
 sub encode_span {
     my ($self, $span) = @_;
     my $data = '';
-    $data .= pack 'CnH16 CnH16 CnH16 CnH16 CnN/a* CnN CnQ> CnQ>',
+    $data .= pack 'CnH16 CnH16 CnH16 CnH16 CnN/a*',
         # trace_id_low
         10,
-        1,
+        1,  
         substr($span->trace_id, 16, 16),
         # trace_id_high
         10,
@@ -172,8 +172,38 @@ sub encode_span {
         # operation_name
         11,
         5,
-        encode_utf8($span->operation_name // ''),
-        # references
+        encode_utf8($span->operation_name // '');
+
+    # references
+    if(my $references = $span->references) {
+        # list Log
+        $data .= pack 'C1n1 C1N1',
+            15, # list
+            6, # field ID 6 for References
+            12, # struct
+            0 + @$references;
+        for my $reference (@$references) {
+            data .= pack 'C1n1N1 CnH16 CnH16 CnH16 C1',
+                    8, # type = int32 (enum)
+                    1,
+                    $span_ref->ref_type,
+                    # trace_id_low
+                    10,
+                    2,
+                    substr($span_ref->span->trace_id, 16, 16),
+                    # trace_id_high
+                    10,
+                    3,
+                    substr($span_ref->span->trace_id, 0, 16),
+                    # span_id
+                    10,
+                    4,
+                    substr($span_ref->span->id, 0, 16),
+                    0;
+        }
+    }
+
+    $data .= pack 'CnN CnQ> CnQ>',
         # flags
         8,
         7,
