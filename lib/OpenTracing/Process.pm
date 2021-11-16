@@ -42,14 +42,6 @@ The process name. Freeform text string.
 
 sub name { shift->{name} //= "$0" }
 
-=head2 pid
-
-The process pid.
-
-=cut
-
-sub pid { shift->{pid} //= $$ }
-
 =head2 tags
 
 Arrayref of tags relating to the process.

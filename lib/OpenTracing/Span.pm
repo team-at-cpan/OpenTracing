@@ -53,8 +53,8 @@ sub new {
     my ($class, %args) = @_;
     $args{operation_name} //= (caller 1)[3];
     if(my $parent = $args{parent}) {
-        $args{parent_id} = $parent->id;
-        $args{trace_id} = $parent->trace_id;
+        $args{parent_id} = $parent->{id};
+        $args{trace_id} = $parent->{trace_id};
     }
 
     # Alternatively reduce { $a * 1_000_000 + $b } Time::HiRes::gettimeofday(),

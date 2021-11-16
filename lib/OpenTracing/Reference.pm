@@ -36,11 +36,11 @@ sub ref_type { shift->{ref_type} }
 
 =head2 span
 
-The span for this reference.
+The context for this reference.
 
 =cut
 
-sub span { shift->{span} }
+sub context { shift->{context} }
 
 1;
 

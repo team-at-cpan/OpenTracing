@@ -61,6 +61,8 @@ sub references { shift->span->references }
 
 sub start_time { shift->span->start_time }
 
+sub finish_time { shift->span->finish_time }
+
 sub duration { shift->span->duration(@_) }
 
 sub finish { shift->span->finish(@_) }
