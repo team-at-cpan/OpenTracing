@@ -210,6 +210,37 @@ sub tag : method {
     return $self;
 }
 
+=head2 references
+
+The references relating to this span.
+
+=cut
+
+sub references { shift->{references} }
+
+=head2 reference_list
+
+A list of reference entries for this span, as L<OpenTracing::Reference> instances.
+
+=cut
+
+sub reference_list { 
+    (shift->{references} //= [])->@*
+}
+
+
+=head2 reference
+
+Records a reference.
+
+=cut
+
+sub reference : method {
+    my ($self, %args) = @_;
+    push +($self->{references} //= [])->@*, my $reference = OpenTracing::Reference->new(%args);
+    $reference;
+}
+
 =head2 tracer
 
 Returns the L<OpenTracing::Tracer> for this span.

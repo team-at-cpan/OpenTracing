@@ -26,6 +26,14 @@ concept.
 
 =head1 METHODS
 
+=head2 pid
+
+The process pid.
+
+=cut
+
+sub pid { shift->{pid} //= $$ }
+
 =head2 name
 
 The process name. Freeform text string.

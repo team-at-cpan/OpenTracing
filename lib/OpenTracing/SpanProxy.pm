@@ -55,6 +55,10 @@ sub tags { shift->span->tags }
 
 sub tag { shift->span->tag(@_) }
 
+sub reference { shift->span->reference(@_) }
+
+sub references { shift->span->references }
+
 sub start_time { shift->span->start_time }
 
 sub duration { shift->span->duration(@_) }

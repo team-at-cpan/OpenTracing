@@ -198,6 +198,7 @@ use OpenTracing::Span;
 use OpenTracing::SpanProxy;
 use OpenTracing::Process;
 use OpenTracing::Tracer;
+use OpenTracing::Reference;
 
 our $TRACER = OpenTracing::Tracer->new;
 
