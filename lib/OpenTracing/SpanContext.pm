@@ -50,7 +50,7 @@ sub new_span {
         $parent->trace_id,
         $parent->id,
     );
-    $parent->tracer->new_span($name => %args);
+    $parent->tracer->span(operation_name => $name, %args);
 }
 
 =head2 DESTROY
@@ -59,13 +59,6 @@ Called on destruction, will mark completion on the span by calling
 L<OpenTracing::Span/finish>.
 
 =cut
-
-sub DESTROY {
-    my ($self) = @_;
-    return if ${^GLOBAL_PHASE} eq 'DESTRUCT';
-    $self->span->finish;
-    delete $self->{span};
-}
 
 1;
 
