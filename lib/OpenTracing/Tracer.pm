@@ -188,7 +188,7 @@ sub inject {
     $args{format} //= 'text_map';
     if($args{format} eq 'text_map') {
         return {
-            map {; $_ => $span->$_ } qw(id parent_id operation_name start_time finish_time),
+            map {; $_ => $span->$_ } qw(id trace_id parent_id operation_name start_time finish_time),
         }
     } else {
         die 'unknown format ' . $args{format}
@@ -212,10 +212,25 @@ sub span_for_future {
     return $span;
 }
 
+sub span_from_context {
+    my ($self, %args) = @_;
+    $args{operation_name} //= (caller 1)[3];
+
+    die "No context was provided" unless $args{context};
+
+    my $span_context = OpenTracing::SpanContext->new(span => $args{context});
+    $self->add_span(
+        my $span = $span_context->new_span($args{operation_name}, %args)
+    );
+    push @{ $self->{current_span} }, $span;
+    return OpenTracing::SpanProxy->new(span => $span);
+}
+
 sub extract {
     my ($self, $data, %args) = @_;
     $args{format} //= 'text_map';
     if($args{format} eq 'text_map') {
+        @$data{tracer} = $self;
         return OpenTracing::Span->new(%$data);
     } else {
         die 'unknown format ' . $args{format}
