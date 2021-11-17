@@ -66,7 +66,10 @@ sub process {
             tags => {
                 pid              => $$,
                 ip               => Net::Address::IP::Local->public_ipv4,
-                'tracer.version' => 'perl-OpenTracing-' . (__PACKAGE__->VERSION // "0.0.0"),
+                # When running from the repository, we won't have a ->VERSION, so
+                # we'll default to the main package but indicate with -dev that
+                # we may have differences from the "official" version
+                'tracer.version' => 'perl-OpenTracing-' . (__PACKAGE__->VERSION // ((OpenTracing->VERSION // "unknown") . "-dev")),
             }
         );
     }
