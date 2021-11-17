@@ -190,15 +190,15 @@ sub encode_span {
                     # trace_id_low
                     10,
                     2,
-                    substr($reference->span->trace_id, 16, 16),
+                    substr($reference->context->trace_id, 16, 16),
                     # trace_id_high
                     10,
                     3,
-                    substr($reference->span->trace_id, 0, 16),
+                    substr($reference->context->trace_id, 0, 16),
                     # span_id
                     10,
                     4,
-                    substr($reference->span->id, 0, 16),
+                    substr($reference->context->id, 0, 16),
                     0;
         }
     }

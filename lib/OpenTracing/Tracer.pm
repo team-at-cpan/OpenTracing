@@ -27,6 +27,7 @@ Typically a single process would have one tracer instance.
 use OpenTracing::Process;
 use OpenTracing::Span;
 use OpenTracing::SpanProxy;
+use OpenTracing::Reference;
 
 use List::Util qw(min);
 use Scalar::Util qw(refaddr);
@@ -133,10 +134,52 @@ sub add_span {
 sub span {
     my ($self, %args) = @_;
     $args{operation_name} //= (caller 1)[3];
+
+    # We want to figure out what parent to
+    # use following a precedence order:
+    # - Parent args
+    # - First CHILD_OF reference
+    # - First FOLLOW_FROM reference
+    # - Current trace span 
+    #
+    my $parent = $args{parent};
+    unless ($parent)
+    {
+        my @reference_queue = ();
+
+        # Default to current span if any
+        if (my $current_span = $self->{current_span}->[-1])
+        {
+            push @reference_queue, {
+                id => $current_span->id,
+                trace_id => $current_span->trace_id
+            };
+        }
+
+        if(my $references = $args{references}) {
+            foreach my $reference (@$references) {
+                next unless $reference; # skip empty references if any
+
+                push @reference_queue, {
+                    id => $reference->context->id,
+                    trace_id => $reference->context->trace_id
+                };
+
+                # Stop the loop if CHILD_OF is found
+                last if $reference->ref_type == OpenTracing::Reference::CHILD_OF;
+
+                # Otherwise loop over FOLLOWS_FROM just in case we find a CHILD_OF later
+            }
+        }
+        
+        # Take the first found reference (either CHILD_OF or FOLLOWS_FROM) or PARENT)
+        $parent = shift @reference_queue;
+    }
+
     $self->add_span(
         my $span = OpenTracing::Span->new(
             tracer => $self,
-            parent => $self->{current_span}->[-1],
+            parent => $parent,
             %args
         )
     );
@@ -152,8 +195,9 @@ sub finish_span {
 
     @{ $self->{current_span} }  = grep { refaddr($_) != refaddr($span)} @{ $self->{current_span} };
 
-    return $span unless $self->is_enabled;
     push @{$self->{finished_spans} //= []}, $span;
+    return $span unless $self->is_enabled;
+
     $_->($span) for $self->span_completion_callbacks;
     return $span;
 }
@@ -212,20 +256,6 @@ sub span_for_future {
     return $span;
 }
 
-sub span_from_context {
-    my ($self, %args) = @_;
-    $args{operation_name} //= (caller 1)[3];
-
-    die "No context was provided" unless $args{context};
-
-    my $span_context = OpenTracing::SpanContext->new(span => $args{context});
-    $self->add_span(
-        my $span = $span_context->new_span($args{operation_name}, %args)
-    );
-    push @{ $self->{current_span} }, $span;
-    return OpenTracing::SpanProxy->new(span => $span);
-}
-
 sub extract {
     my ($self, $data, %args) = @_;
     $args{format} //= 'text_map';
@@ -245,6 +275,22 @@ sub extract_finished_spans {
         $count = @{$self->{finished_spans}};
     }
     return splice @{$self->{finished_spans}}, 0, min(0 + @{$self->{finished_spans}}, $count);
+}
+
+sub child_of {
+    my ($self, $context) = @_;
+    die "Can't create a child_of reference without a valid context" unless $context;
+    return OpenTracing::Reference->new(
+        ref_type => OpenTracing::Reference::CHILD_OF,
+        context => $context);
+}
+
+sub follows_from {
+    my ($self, $context) = @_;
+    die "Can't create a follow_from reference without a valid context" unless $context;
+    return OpenTracing::Reference->new(
+        ref_type => OpenTracing::Reference::FOLLOWS_FROM,
+        context => $context);
 }
 
 =head2 DESTROY

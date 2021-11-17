@@ -37,11 +37,11 @@ Luckily, this perl module can do that for you using:
   my $span;
   if ($span_context)
   {
-      $span = $tracer->span_from_context(operation_name => 'main_with_context_propagation', context => $span_context);
+    $span = $tracer->span(operation_name => 'main', references => [$tracer->child_of($span_context)]);
   }
   else
   {
-      $span = $tracer->span(operation_name => 'main');
+    $span = $tracer->span(operation_name => 'main');
   }
 
 =head1 DESCRIPTION
@@ -65,7 +65,7 @@ sub load {
         *CORE::GLOBAL::system = sub {
             my @args = @_;
 
-            my $span = $tracer->span(operation_name => "CORE::system");
+            my $span = $tracer->span(operation_name => "system");
             $span->tag('command' => join(" ", @args));
             $class->inject_context($span);
 
