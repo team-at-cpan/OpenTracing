@@ -271,7 +271,8 @@ still in flux
 
 =head1 AUTHOR
 
-Tom Molesworth C<< TEAM@cpan.org >>
+Original implementation by Tom Molesworth C<< TEAM@cpan.org >>. Additional patches, bugfixes and features
+contributed by L<VTI> and C<chp9-u>.
 
 =head1 LICENSE
 
