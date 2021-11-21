@@ -2,8 +2,8 @@
 
 =for comment POD_DERIVED_INDEX_GENERATED
 The following documentation is automatically generated.  Please do not edit
-this file, but rather the original, inline with OpenTracing::Process
-at lib/OpenTracing/Process.pm
+this file, but rather the original, inline with OpenTracing::Reference
+at lib/OpenTracing/Reference.pm
 (on the system that originally ran this).
 If you do edit this file, and don't want your changes to be removed, make
 sure you change the first line.
@@ -12,30 +12,17 @@ sure you change the first line.
 
 =head1 NAME
 
-OpenTracing::Process - information about a single process
+OpenTracing::Reference - represents a span Reference
 
 =head1 DESCRIPTION
 
-Each batch of spans is linked to a process. This can either be a Unix-style process or a more abstract "service"
-concept.
+=head2 ref_type
 
-=head1 METHODS
+The type of reference
 
-=head2 pid
+=head2 span
 
-The process pid.
-
-=head2 name
-
-The process name. Freeform text string.
-
-=head2 tags
-
-Arrayref of tags relating to the process.
-
-=head2 tag_list
-
-List of tags for this process.
+The context for this reference.
 
 =head1 INHERITED METHODS
 
