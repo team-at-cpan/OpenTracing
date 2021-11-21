@@ -205,8 +205,9 @@ still in flux
 
 # AUTHOR
 
-Tom Molesworth `TEAM@cpan.org`
+Original implementation by Tom Molesworth `TEAM@cpan.org`. Additional patches, bugfixes and features
+contributed by [VTI](https://metacpan.org/pod/VTI) and `chp9-u`.
 
 # LICENSE
 
-Copyright Tom Molesworth 2018-2020. Licensed under the same terms as Perl itself.
+Copyright Tom Molesworth 2018-2021. Licensed under the same terms as Perl itself.
