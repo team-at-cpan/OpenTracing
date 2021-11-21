@@ -139,12 +139,11 @@ sub span {
     $args{operation_name} //= (caller 1)[3];
 
     # We want to figure out what parent to
-    # use following a precedence order:
+    # use, following as precedence order:
     # - Parent args
     # - First CHILD_OF reference
     # - First FOLLOW_FROM reference
-    # - Current trace span 
-    #
+    # - Current trace span
     my $parent = $args{parent};
     unless ($parent)
     {
@@ -174,7 +173,7 @@ sub span {
                 # Otherwise loop over FOLLOWS_FROM just in case we find a CHILD_OF later
             }
         }
-        
+
         # Take the first found reference (either CHILD_OF or FOLLOWS_FROM) or PARENT)
         $parent = shift @reference_queue;
     }

@@ -224,7 +224,7 @@ A list of reference entries for this span, as L<OpenTracing::Reference> instance
 
 =cut
 
-sub reference_list { 
+sub reference_list {
     (shift->{references} //= [])->@*
 }
 
