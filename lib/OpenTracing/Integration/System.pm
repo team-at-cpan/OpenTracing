@@ -24,7 +24,7 @@ To create trace each time a system is called:
   system("ls");
 
 Additionally, this modules supports span context propagation using the OPENTRACING_CONTEXT environment variable.
-Any call to system will fill the environment variable OPENTRACING_CONTEXT=<traceid>:<id> in order to propagate 
+Any call to system will fill the environment variable OPENTRACING_CONTEXT=<traceid>:<id> in order to propagate
 down the context to other programs.
 
 Of course, this requires that the child process implements extracting the span from that variable.
@@ -32,7 +32,7 @@ Luckily, this perl module can do that for you using:
 
   use OpenTracing::Any qw($tracer);
   use OpenTracing::Integration qw(System);
-  
+
   my $span_context = OpenTracing::Integration::System->extract_context();
   my $span;
   if ($span_context)
