@@ -1,6 +1,9 @@
 Revision history for {{$dist->name}}
 
 {{$NEXT}}
+    [Bugs fixed]
+
+    - missing JSON::MaybeUTF8 dependency added to `cpanfile`
 
 1.004     2021-11-21 22:41:15+08:00 Asia/Kuala_Lumpur
     [New features]
